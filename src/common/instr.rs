@@ -58,7 +58,15 @@ pub fn run_with_path(
     config: Config,
 ) -> Result<Vec<u8>, Box<ErrorGen>> {
     let buff = if !config.as_monitor_module {
-        std::fs::read(app_wasm_path).unwrap()
+        let raw = std::fs::read(&app_wasm_path).unwrap();
+        match wat::parse_bytes(&raw) {
+            Ok(bytes) => bytes.into_owned(),
+            Err(error) => {
+                let mut err = ErrorGen::new(script_path.clone(), "".to_string(), max_errors);
+                err.add_instr_error(&format!("Failed to parse app {}: {}", app_wasm_path, error));
+                return Err(Box::new(err));
+            }
+        }
     } else {
         vec![]
     };
