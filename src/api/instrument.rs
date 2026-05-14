@@ -51,13 +51,7 @@ pub fn instrument_with_config(
     let core_lib = resolve_core_lib(core_lib);
     let defs = resolve_defs(defs);
     instr::run_on_bytes(
-        &core_lib,
-        &defs,
-        wasm_app,
-        script,
-        user_libs,
-        MAX_ERRORS,
-        config,
+        &core_lib, &defs, wasm_app, script, user_libs, MAX_ERRORS, config,
     )
 }
 

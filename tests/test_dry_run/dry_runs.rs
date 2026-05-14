@@ -1,8 +1,8 @@
 use crate::util::{print_side_effects, setup_logger, CORE_WASM_PATH};
+use std::path::Path;
 use whamm::api::instrument::{
     instrument_as_dry_run_rewriting, instrument_as_dry_run_wei, WhammError,
 };
-use std::path::Path;
 use whamm::api::{load_core_lib_from_path, load_defs_from_path};
 
 // TODO add tests for:

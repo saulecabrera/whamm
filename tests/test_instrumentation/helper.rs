@@ -1,4 +1,5 @@
 use crate::util::{setup_logger, CORE_WASM_PATH};
+use anyhow::{anyhow, Context, Result};
 use glob::{glob, glob_with};
 use log::{error, warn};
 use std::fs;
@@ -8,7 +9,6 @@ use std::process::Command;
 use whamm::api::instrument::{instrument_as_dry_run_rewriting, WhammError};
 use whamm::api::utils::{wasm2wat_on_file, write_to_file};
 use wirm::Module;
-use anyhow::{anyhow, Context, Result};
 
 const TEST_DRY_RUN: bool = true;
 pub const DEFAULT_CORE_LIB_PATH: &str = "tests/libs/whamm_core.wasm";
@@ -348,7 +348,9 @@ pub(crate) fn run_script(
     let script_bytes = std::fs::read(&script_path_str)
         .with_context(|| format!("could not read script {script_path_str}"))?;
     let user_lib_bytes = whamm::api::parse_user_libs(user_libs.clone())?;
-    let core_lib_bytes = Some(whamm::api::load_core_lib_from_path(Path::new(CORE_WASM_PATH))?);
+    let core_lib_bytes = Some(whamm::api::load_core_lib_from_path(Path::new(
+        CORE_WASM_PATH,
+    ))?);
     let defs_bytes = Some(whamm::api::load_defs_from_path(Path::new("./")));
     let wasm_result = if target_wei {
         whamm::api::instrument::generate_monitor_module(

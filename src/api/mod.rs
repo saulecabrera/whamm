@@ -3,8 +3,8 @@ pub mod utils;
 
 use crate::api::instrument::UserLibs;
 use crate::parser::yml_processor::pull_all_yml_files;
-use std::path::Path;
 use anyhow::{anyhow, Result};
+use std::path::Path;
 
 #[cfg(debug_assertions)]
 pub static WHAMM_CORE_LIB_BYTES: &[u8] = include_bytes!("../../embedded/debug/whamm_core.wasm");
@@ -54,9 +54,7 @@ pub fn parse_user_libs(specs: Vec<String>) -> Result<UserLibs> {
                 name.to_string(),
                 Some(
                     rest.strip_suffix(')')
-                        .ok_or_else(|| {
-                            anyhow!("user lib spec missing ')' in name part: {spec}")
-                        })?
+                        .ok_or_else(|| anyhow!("user lib spec missing ')' in name part: {spec}"))?
                         .to_string(),
                 ),
             ),
