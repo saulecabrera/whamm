@@ -31,7 +31,7 @@ fn resolve_core_lib(core_lib: Option<Vec<u8>>) -> Vec<u8> {
 /// target Wasm module via bytecode rewriting.
 ///
 /// * `wasm_app`: The bytes of the target application to
-///    instrument. Pass an empty `Vec` when generating a monitor module.
+///   instrument. Pass an empty `Vec` when generating a monitor module.
 /// * `script`: The bytes of the whamm script source.
 /// * `user_libs`: User-provided libraries. See [`UserLibs`].
 /// * `config`: The configuration to use when performing the
